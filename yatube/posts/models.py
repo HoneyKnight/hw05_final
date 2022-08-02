@@ -38,7 +38,7 @@ class Post(models.Model):
         blank=True
     )
 
-    def __str__(self):  
+    def __str__(self):
         return self.text[:15]
 
     class Meta:
@@ -89,12 +89,12 @@ class Comment(models.Model):
         verbose_name='Текст комментария',
         help_text='Введите текст комментария'
     )
-    created  = models.DateTimeField(
+    created = models.DateTimeField(
         'Дата публикации',
         auto_now_add=True
     )
 
-    def __str__(self):  
+    def __str__(self):
         return self.text[:15]
 
 
@@ -116,5 +116,5 @@ class Follow(models.Model):
         related_name='following'
     )
 
-    def __str__(self):  
+    def __str__(self):
         return self.text[:15]

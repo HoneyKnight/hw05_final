@@ -166,7 +166,6 @@ class PaginatorViewsTest(TestCase):
             reverse('posts:index') + '?page=2')
         self.assertEqual(len(response.context['page_obj']), 3)
 
-
     def test_cache_home_page(self):
         """Кеш на главной работает правильно"""
         response = self.client.get(reverse('posts:index'))
@@ -185,8 +184,8 @@ class FollowTest(TestCase):
         self.user_follower = User.objects.create_user(username='follower')
         self.user_following = User.objects.create_user(username='following')
         self.post = Post.objects.create(
-            author = self.user_following,
-            text = 'Тестовый пост'
+            author=self.user_following,
+            text='Тестовый пост'
         )
         self.client_auth_follower.force_login(self.user_follower)
         self.cliend_auth_following.force_login(self.user_following)
@@ -196,7 +195,7 @@ class FollowTest(TestCase):
         self.client_auth_follower.get(
             reverse(
                 'posts:profile_follow',
-                kwargs={'username':self.user_following.username}
+                kwargs={'username': self.user_following.username}
             )
         )
         self.assertEqual(Follow.objects.all().count(), 1)

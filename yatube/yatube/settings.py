@@ -102,7 +102,7 @@ CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
     }
-} 
+}
 
 
 LANGUAGE_CODE = 'ru'

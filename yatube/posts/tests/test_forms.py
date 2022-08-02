@@ -7,11 +7,11 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 from posts.models import Comment, Group, Post
-from requests import post
 
 User = get_user_model()
 
 TEMP_MEDIA_ROOT = tempfile.mkdtemp(dir=settings.BASE_DIR)
+
 
 @override_settings(MEDIA_ROOT=TEMP_MEDIA_ROOT)
 class FormTests(TestCase):
@@ -83,7 +83,7 @@ class FormTests(TestCase):
                 author=FormTests.user,
                 group=FormTests.group.id,
                 image='posts/small.gif',
-                ).exists()
+            ).exists()
         )
 
     def test_comment_add(self):
@@ -125,4 +125,3 @@ class FormTests(TestCase):
             'posts:post_detail',
             kwargs={'post_id': f'{FormTests.post.id}'}
         ))
-

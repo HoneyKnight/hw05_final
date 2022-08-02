@@ -43,7 +43,9 @@ def profile(request, username):
     posts = author.posts.select_related('author')
     page_obj = paginator(posts, request)
     if request.user.is_authenticated:
-            is_following = Follow.objects.filter(user=request.user, author=author).exists()
+        is_following = Follow.objects.filter(
+            user=request.user, author=author
+        ).exists()
     else:
         is_following = False
     context = {
@@ -125,6 +127,7 @@ def profile_follow(request, username):
     if user != author and not is_following.exists():
         Follow.objects.create(user=user, author=author)
     return redirect('posts:profile', author.username)
+
 
 @login_required
 def profile_unfollow(request, username):
