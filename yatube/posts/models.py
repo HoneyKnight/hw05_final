@@ -33,9 +33,11 @@ class Post(models.Model):
         help_text='Выберите группу'
     )
     image = models.ImageField(
-        'Картинка',
         upload_to='posts/',
-        blank=True
+        blank=True,
+        null=True,
+        verbose_name='Картинка',
+        help_text='Добавьте картинку'
     )
 
     def __str__(self):
@@ -116,5 +118,3 @@ class Follow(models.Model):
         related_name='following'
     )
 
-    def __str__(self):
-        return self.text[:15]

@@ -40,14 +40,12 @@ def group_posts(request, slug):
 
 def profile(request, username):
     author = get_object_or_404(User, username=username)
-    posts = author.posts.select_related('author')
+    posts = author.posts.all()
     page_obj = paginator(posts, request)
-    if request.user.is_authenticated:
-        is_following = Follow.objects.filter(
-            user=request.user, author=author
+    is_following = Follow.objects.filter(
+            user=request.user.id,
+            author=author,
         ).exists()
-    else:
-        is_following = False
     context = {
         'author': author,
         'page_obj': page_obj,
@@ -72,9 +70,9 @@ def post_detail(request, post_id):
 def post_create(request):
     form = PostForm(request.POST or None)
     if form.is_valid():
-        form = form.save(commit=False)
-        form.author = request.user
-        form.save()
+        post = form.save(commit=False)
+        post.author = request.user
+        post.save()
         return redirect('posts:profile', request.user.username)
     return render(request, 'posts/create_post.html', {'form': form})
 
@@ -122,17 +120,14 @@ def follow_index(request):
 @login_required
 def profile_follow(request, username):
     user = request.user
-    author = User.objects.get(username=username)
-    is_following = Follow.objects.filter(user=user, author=author)
-    if user != author and not is_following.exists():
-        Follow.objects.create(user=user, author=author)
+    author = get_object_or_404(User, username=username)
+    if user != author:
+        Follow.objects.get_or_create(user=user, author=author)
     return redirect('posts:profile', author.username)
 
 
 @login_required
 def profile_unfollow(request, username):
-    author = get_object_or_404(User, username=username)
-    is_following = Follow.objects.filter(user=request.user, author=author)
-    if is_following.exists():
-        is_following.delete()
-    return redirect('posts:profile', author.username)
+    Follow.objects.filter(user=request.user,
+    author__username=username).delete()
+    return redirect('posts:profile', username)

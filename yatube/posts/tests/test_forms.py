@@ -1,3 +1,4 @@
+from cgitb import text
 import shutil
 import tempfile
 
@@ -48,6 +49,7 @@ class FormTests(TestCase):
             post=cls.post,
         )
 
+
     @classmethod
     def tearDownClass(cls):
         super().tearDownClass()
@@ -55,7 +57,6 @@ class FormTests(TestCase):
 
     def setUp(self):
         self.guest_client = Client()
-        self.user = User.objects.create_user(username='HasNoName')
         self.authorized_client = Client()
         self.authorized_client.force_login(self.user)
 
@@ -111,7 +112,7 @@ class FormTests(TestCase):
     def test_post_edit(self):
         """Редактирование записи."""
         form_fields = {
-            'text': 'Тестовый пост',
+            'text': 'Тестовый пост1',
         }
         response = self.authorized_client.post(
             reverse(
@@ -121,6 +122,7 @@ class FormTests(TestCase):
             data=form_fields,
             follow=True
         )
+        self.assertEqual(Post.objects.get(id=1).text, 'Тестовый пост1')
         self.assertRedirects(response, reverse(
             'posts:post_detail',
             kwargs={'post_id': f'{FormTests.post.id}'}

@@ -9,7 +9,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 LOGIN_URL = 'users:login'
 LOGIN_REDIRECT_URL = 'posts:index'
 # LOGOUT_REDIRECT_URL = 'posts:index'
-CSRF_FAILURE_VIEW = 'core.views.csrf_failure'
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 
 
@@ -117,3 +116,4 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
+CSRF_FAILURE_VIEW = 'core.views.csrf_failure'

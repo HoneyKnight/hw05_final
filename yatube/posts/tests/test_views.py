@@ -1,3 +1,4 @@
+from cgitb import text
 from django import forms
 from django.contrib.auth import get_user_model
 from django.core.cache import cache
@@ -142,11 +143,15 @@ class PaginatorViewsTest(TestCase):
             slug='slug',
             description='Тестовое описание',
         )
-        for post in range(13):
-            Post.objects.create(
+        objs = [
+            Post(
                 text=f'Тестовый пост{post}',
                 author=cls.user,
-                group=cls.group)
+                group=cls.group,
+            )
+            for post in range(13)
+        ]
+        Post.objects.bulk_create(objs)
 
     def setUp(self):
         cache.clear()
@@ -175,18 +180,25 @@ class PaginatorViewsTest(TestCase):
         response = self.client.get(reverse('posts:index'))
         object_index2 = response.content
         self.assertEqual(object_index1, object_index2)
+        cache.clear()
+        object_index3 = response.content
+        self.assertEqual(object_index3, object_index2)
 
 
 class FollowTest(TestCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.user_follower = User.objects.create_user(username='follower')
+        cls.user_following = User.objects.create_user(username='following')
+        cls.post = Post.objects.create(
+        author=cls.user_following,
+        text='Тестовый пост'
+        )
+
     def setUp(self):
         self.client_auth_follower = Client()
         self.cliend_auth_following = Client()
-        self.user_follower = User.objects.create_user(username='follower')
-        self.user_following = User.objects.create_user(username='following')
-        self.post = Post.objects.create(
-            author=self.user_following,
-            text='Тестовый пост'
-        )
         self.client_auth_follower.force_login(self.user_follower)
         self.cliend_auth_following.force_login(self.user_following)
 
