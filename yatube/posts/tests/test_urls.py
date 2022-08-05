@@ -55,6 +55,11 @@ class URLTests(TestCase):
         response = self.guest_client.get('/unexisting_page/')
         self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
 
+    def test_pages_uses_correct_templates(self):
+        """Страница 404 используют корректный шаблон"""
+        response = self.guest_client.get('/unexisting_page/')
+        self.assertTemplateUsed(response, 'core/404.html')
+
     def test_guest_pages(self):
         """Страницы доступны всем"""
         urls = {
