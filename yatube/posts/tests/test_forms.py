@@ -120,7 +120,9 @@ class FormTests(TestCase):
             data=form_fields,
             follow=True
         )
-        self.assertEqual(Post.objects.get(id=FormTests.post.id).text, 'Тестовый пост1')
+        self.assertEqual(
+            Post.objects.get(id=FormTests.post.id).text, 'Тестовый пост1'
+        )
         self.assertRedirects(response, reverse(
             'posts:post_detail',
             kwargs={'post_id': f'{FormTests.post.id}'}
