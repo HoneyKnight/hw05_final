@@ -1,4 +1,3 @@
-from cgitb import text
 import shutil
 import tempfile
 
@@ -48,7 +47,6 @@ class FormTests(TestCase):
             text='Тестовый комментарий',
             post=cls.post,
         )
-
 
     @classmethod
     def tearDownClass(cls):

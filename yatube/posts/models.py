@@ -117,4 +117,3 @@ class Follow(models.Model):
         verbose_name='Автор',
         related_name='following'
     )
-

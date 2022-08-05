@@ -1,4 +1,3 @@
-from cgitb import text
 from django import forms
 from django.contrib.auth import get_user_model
 from django.core.cache import cache
@@ -192,8 +191,8 @@ class FollowTest(TestCase):
         cls.user_follower = User.objects.create_user(username='follower')
         cls.user_following = User.objects.create_user(username='following')
         cls.post = Post.objects.create(
-        author=cls.user_following,
-        text='Тестовый пост'
+            author=cls.user_following,
+            text='Тестовый пост',
         )
 
     def setUp(self):
