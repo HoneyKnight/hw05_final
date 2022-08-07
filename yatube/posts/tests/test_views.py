@@ -182,7 +182,7 @@ class PaginatorViewsTest(TestCase):
         cache.clear()
         response_3 = self.client.get(reverse('posts:index'))
         object_index3 = response_3.content
-        self.assertNotEqual(object_index3, object_index1)
+        self.assertEqual(object_index3, object_index1)
 
 
 class FollowTest(TestCase):
