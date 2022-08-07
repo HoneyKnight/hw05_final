@@ -172,15 +172,15 @@ class PaginatorViewsTest(TestCase):
 
     def test_cache_home_page(self):
         """Кеш на главной работает правильно"""
-        response_1 = self.authorized_client.get(reverse('posts:index'))
+        response_1 = self.client.get(reverse('posts:index'))
         object_index1 = response_1.content
         dpost = Post.objects.filter(id=2)
         dpost.delete()
-        response_2 = self.authorized_client.get(reverse('posts:index'))
+        response_2 = self.client.get(reverse('posts:index'))
         object_index2 = response_2.content
         self.assertEqual(object_index1, object_index2)
         cache.clear()
-        response_3 = self.authorized_client.get(reverse('posts:index'))
+        response_3 = self.client.get(reverse('posts:index'))
         object_index3 = response_3.content
         self.assertNotEqual(object_index3, object_index1)
 
