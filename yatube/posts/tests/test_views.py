@@ -174,8 +174,7 @@ class PaginatorViewsTest(TestCase):
         """Кеш на главной работает правильно"""
         response = self.client.get(reverse('posts:index'))
         object_index1 = response.content
-        dpost = Post.objects.all()
-        dpost.delete()
+        Post.objects.all().delete()
         response = self.client.get(reverse('posts:index'))
         object_index2 = response.content
         self.assertEqual(object_index1, object_index2)
