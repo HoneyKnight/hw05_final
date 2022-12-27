@@ -12,7 +12,7 @@ LOGIN_REDIRECT_URL = 'posts:index'
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 
 
-SECRET_KEY = '9@!1m+=u-gan1=by4os!i68m@#bs6s@+9bb%kep0055znq$@ix'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 DEBUG = True
 
